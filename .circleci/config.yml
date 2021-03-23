@@ -26,3 +26,10 @@ jobs:
                sudo -u mmn portfolio-pull
                sudo -u mmn portfolio-start
              EOF
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build
+      - deploy
