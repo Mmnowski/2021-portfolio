@@ -17,7 +17,7 @@ jobs:
             - ./node_modules
   deploy:
      machine:
-       enabled: true
+       image: ubuntu-2004:202010-01
      steps:
        - run:
            name: Deploy Over SSH
