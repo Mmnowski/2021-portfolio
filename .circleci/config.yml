@@ -15,3 +15,14 @@ jobs:
           key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
+  deploy:
+     machine:
+       enabled: true
+     steps:
+       - run:
+           name: Deploy Over SSH
+           command: |
+             ssh -t mmn@mmn.dev << EOF
+               sudo -u mmn portfolio-pull
+               sudo -u mmn portfolio-start
+             EOF
