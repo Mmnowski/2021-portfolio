@@ -1,14 +1,32 @@
 # build environment
 FROM node:14.16.0-alpine as build
-WORKDIR /app
-COPY . .
-RUN yarn
-RUN yarn build
-CMD "ls -al"
 
-# production environment
-FROM nginx:stable-alpine
-COPY --from=build /app/build/ /usr/share/nginx/html/
-COPY --from=build /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Set working directory
+WORKDIR /usr/app
+
+# Install PM2 globally
+RUN yarn global add pm2
+
+# Copy package.json and package-lock.json before other files
+# Utilise Docker cache to save re-installing dependencies if unchanged
+COPY ./package.json ./
+COPY ./yarn.lock ./
+
+# Install dependencies
+RUN yarn install --production
+
+# Copy all files
+COPY ./ ./
+
+# Build app
+RUN yarn build
+
+# Expose the listening port
+EXPOSE 3000
+
+# Run container as non-root (unprivileged) user
+# The node user is provided in the Node.js Alpine base image
+USER node
+
+# Run npm start script with PM2 when container starts
+CMD [ "pm2-runtime", "npm", "--", "start" ]

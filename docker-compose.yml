@@ -1,12 +1,9 @@
-version: "3.9"
+version: '3'
 
 services:
-  portfolio:
-    container_name: portfolio-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+  nextjs:
+    build: ./
+  nginx:
+    build: ./nginx
     ports:
       - 80:80
-    environment:
-      NODE_ENV: production
