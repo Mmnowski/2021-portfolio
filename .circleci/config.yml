@@ -30,7 +30,7 @@ jobs:
             echo "PubkeyAuthentication yes" >> ~/.ssh/config
             echo "StrictHostKeyChecking no" >> ~/.ssh/config
             sudo chmod 400 ~/.ssh/config
-            service sshd restart
+            service ssh restart
       - run:
           name: add to known hosts
           command: |
