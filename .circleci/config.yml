@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh -t -oStrictHostKeyChecking=no -v mmn@mmn.dev /bin/bash -ic 'sudo -u mmn portfolio-pull && sudo -u mmn portfolio-start'
+            ssh -t -oStrictHostKeyChecking=no -v mmn@mmn.dev /bin/bash -ic 'sudo -u mmn portfolio-deploy'
 
 workflows:
   version: 2
