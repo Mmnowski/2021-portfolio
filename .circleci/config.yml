@@ -16,19 +16,19 @@ jobs:
           paths:
             - ./node_modules
   deploy:
-     machine:
-       image: ubuntu-2004:202010-01
-     steps:
-       - add_ssh_keys:
-           fingerprints:
-             - "3a:bf:ea:03:f5:e7:56:e7:32:81:f0:35:c7:9c:5c:ba"
-       - run:
-           name: Deploy Over SSH
-           command: |
-             ssh -t mmn@mmn.dev \<< EOF
-               sudo -u mmn portfolio-pull
-               sudo -u mmn portfolio-start
-             EOF
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+     - add_ssh_keys:
+         fingerprints:
+           - "3a:bf:ea:03:f5:e7:56:e7:32:81:f0:35:c7:9c:5c:ba"
+     - run:
+         name: Deploy Over SSH
+         command: |
+           ssh -t mmn@mmn.dev \<< EOF
+             sudo -u mmn portfolio-pull
+             sudo -u mmn portfolio-start
+           EOF
 
 workflows:
   version: 2
