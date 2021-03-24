@@ -21,16 +21,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "3a:bf:ea:03:f5:e7:56:e7:32:81:f0:35:c7:9c:5c:ba"
-#      - run:
-#          name: skip key authentication message
-#          command: |
-#            sudo cat ~/.ssh/config
-#            sudo chmod 700 ~/.ssh/config
-#            echo "PubkeyAuthentication yes" >> ~/.ssh/config
-#            echo "StrictHostKeyChecking no" >> ~/.ssh/config
-#            sudo chmod 400 ~/.ssh/config
-#            service ssh restart
+            - "b8:09:f7:24:58:79:83:f5:44:b3:5e:8d:d0:04:3d:f3"
       - run:
           name: add to known hosts
           command: |
