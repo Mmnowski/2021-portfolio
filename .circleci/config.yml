@@ -19,16 +19,28 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     steps:
-     - add_ssh_keys:
-         fingerprints:
-           - "3a:bf:ea:03:f5:e7:56:e7:32:81:f0:35:c7:9c:5c:ba"
-     - run:
-         name: Deploy Over SSH
-         command: |
-           ssh -t mmn@mmn.dev \<< EOF
-             sudo -u mmn portfolio-pull
-             sudo -u mmn portfolio-start
-           EOF
+      - add_ssh_keys:
+          fingerprints:
+            - "3a:bf:ea:03:f5:e7:56:e7:32:81:f0:35:c7:9c:5c:ba"
+      - run:
+        name: skip key authentication message
+        command: |
+          sudo cat ~/.ssh/config
+          sudo chmod 400 ~/.ssh/config
+          echo "PubkeyAuthentication yes" >> ~/.ssh/config
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+          service sshd restart
+      - run:
+        name: add to known hosts
+        command: |
+        sudo ssh-keyscan -H 42.42.64.64 >> ~/.ssh/known_hosts
+      - run:
+          name: Deploy Over SSH
+          command: |
+            ssh -t mmn@mmn.dev \<< EOF
+              sudo -u mmn portfolio-pull
+              sudo -u mmn portfolio-start
+            EOF
 
 workflows:
   version: 2
