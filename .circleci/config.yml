@@ -34,7 +34,7 @@ jobs:
       - run:
           name: add to known hosts
           command: |
-            sudo ssh-keyscan -H 42.42.64.64 >> ~/.ssh/known_hosts
+            sudo ssh-keyscan -H mmn.dev >> ~/.ssh/known_hosts
       - run:
           name: Deploy Over SSH
           command: |
