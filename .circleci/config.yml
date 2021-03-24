@@ -26,9 +26,10 @@ jobs:
           name: skip key authentication message
           command: |
             sudo cat ~/.ssh/config
-            sudo chmod 400 ~/.ssh/config
+            sudo chmod 700 ~/.ssh/config
             echo "PubkeyAuthentication yes" >> ~/.ssh/config
             echo "StrictHostKeyChecking no" >> ~/.ssh/config
+            sudo chmod 400 ~/.ssh/config
             service sshd restart
       - run:
           name: add to known hosts
