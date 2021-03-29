@@ -30,6 +30,10 @@ jobs:
           name: Deploy Over SSH
           command: |
             ssh -t -oStrictHostKeyChecking=no -v mmn@mmn.dev /bin/bash -ic 'portfolio-deploy'
+      - run:
+          name: Clear existing cache
+          command: |
+            ssh -t -oStrictHostKeyChecking=no -v mmn@mmn.dev /bin/bash -ic 'rm /var/cache/nginx/*'
 
 workflows:
   version: 2
