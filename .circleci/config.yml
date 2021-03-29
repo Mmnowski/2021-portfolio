@@ -34,6 +34,10 @@ jobs:
 workflows:
   version: 2
   build-test-deploy:
+    filters:
+      branches:
+        only:
+          - main
     jobs:
       - build:
           name: build
