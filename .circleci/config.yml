@@ -34,13 +34,17 @@ jobs:
 workflows:
   version: 2
   build-test-deploy:
-    filters:
-      branches:
-        only:
-          - main
     jobs:
       - build:
           name: build
+          filters:
+            branches:
+              only:
+                - main
       - deploy:
           name: deploy
           requires: [build]
+          filters:
+            branches:
+              only:
+                - main
