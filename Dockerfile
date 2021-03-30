@@ -1,32 +1,29 @@
-# build environment
-FROM node:14.16.0-alpine as build
+FROM node:alpine as BUILD_IMAGE
 
-# Set working directory
-WORKDIR /usr/app
+WORKDIR /app
 
-# Install PM2 globally
-RUN yarn global add pm2
+COPY package.json yarn.lock ./
 
-# Copy package.json and package-lock.json before other files
-# Utilise Docker cache to save re-installing dependencies if unchanged
-COPY ./package.json ./
-COPY ./yarn.lock ./
+# install dependencies
+RUN yarn install --frozen-lockfile
 
-# Install dependencies
-RUN yarn install --production
+COPY . .
 
-# Copy all files
-COPY ./ ./
-
-# Build app
+# build
 RUN yarn build
 
-# Expose the listening port
+# remove dev dependencies
+RUN npm prune --production
+
+FROM node:alpine
+
+WORKDIR /app
+
+# copy from build image
+COPY --from=BUILD_IMAGE /app/package.json ./package.json
+COPY --from=BUILD_IMAGE /app/node_modules ./node_modules
+COPY --from=BUILD_IMAGE /app/.next ./.next
+COPY --from=BUILD_IMAGE /app/public ./public
+
 EXPOSE 3000
-
-# Run container as non-root (unprivileged) user
-# The node user is provided in the Node.js Alpine base image
-USER node
-
-# Run npm start script with PM2 when container starts
-CMD [ "pm2-runtime", "npm", "--", "start" ]
+CMD ["yarn", "start"]
