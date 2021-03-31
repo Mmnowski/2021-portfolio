@@ -3,3 +3,50 @@ version: '3'
 services:
   nextjs:
     build: ./
+    container_name: nextjs
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - nextjs
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email stankiewicz@mmn.dev --agree-tos --no-eff-email --staging -d mmn.dev  -d www.mmn.dev
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./public/
+      o: bind
+
+networks:
+  app-network:
+    driver: bridge
