@@ -6,7 +6,7 @@ build:
 
 certbot-test:
 	@chmod +x ./web/register_ssl.sh
-	@sudo ./webserver/register_ssl.sh \
+	@sudo ./web/register_ssl.sh \
 								--domains "$(DOMAINS)" \
 								--email $(EMAIL) \
 								--data-path ./webserver/certbot \
@@ -14,7 +14,7 @@ certbot-test:
 
 certbot-prod:
 	@chmod +x ./web/register_ssl.sh
-	@sudo ./webserver/register_ssl.sh \
+	@sudo ./web/register_ssl.sh \
 								--domains "$(DOMAINS)" \
 								--email $(EMAIL) \
 								--data-path ./webserver/certbot \
