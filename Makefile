@@ -5,7 +5,7 @@ build:
 	@echo "[✔️] Frontend build complete!"
 
 certbot-test:
-	@chmod +x ./webserver/register_ssl.sh
+	@chmod +x ./web/register_ssl.sh
 	@sudo ./webserver/register_ssl.sh \
 								--domains "$(DOMAINS)" \
 								--email $(EMAIL) \
@@ -13,7 +13,7 @@ certbot-test:
 								--staging 1
 
 certbot-prod:
-	@chmod +x ./webserver/register_ssl.sh
+	@chmod +x ./web/register_ssl.sh
 	@sudo ./webserver/register_ssl.sh \
 								--domains "$(DOMAINS)" \
 								--email $(EMAIL) \
