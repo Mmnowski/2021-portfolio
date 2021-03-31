@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  frontend:
+    container_name: nextjs
+    build:
+      context: ./app
+    volumes:
+      - static:/app
+
+  nginx:
+    volumes:
+      - static:/usr/share/nextjs
+      - ./web/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./web/nginx/mmn.dev.conf:/etc/nginx/sites-enabled/mmn.dev.conf
+      - ./web/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./web/certbot/conf:/etc/letsencrypt
+      - ./web/certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - nextjs
+
+volumes:
+  static:
