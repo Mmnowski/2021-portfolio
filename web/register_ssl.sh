@@ -132,6 +132,11 @@ if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] && [ ! -e "$data_path/conf/
 
 	curl -s $options_ssl_nginx > "$data_path/conf/options-ssl-nginx.conf"
 	curl -s $ssl_dhparams > "$data_path/conf/ssl-dhparams.pem"
+	if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] && [ ! -e "$data_path/conf/ssl-dhparams.pem" ];
+	then
+	  echo; echo "[w] Couldn't download one or both of the files"; echo;
+  else
+	  echo; echo "[i] Download successful"; echo;
 fi
 
 # Dummy certificate
