@@ -137,6 +137,7 @@ if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] && [ ! -e "$data_path/conf/
 	  echo; echo "[w] Couldn't download one or both of the files"; echo;
   else
 	  echo; echo "[i] Download successful"; echo;
+  fi
 fi
 
 # Dummy certificate
